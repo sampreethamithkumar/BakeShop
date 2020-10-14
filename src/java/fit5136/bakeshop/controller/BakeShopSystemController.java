@@ -4,7 +4,7 @@ import com.sun.deploy.security.SelectableSecurityManager;
 import fit5136.bakeshop.entities.*;
 import fit5136.bakeshop.userinterface.UserInterface;
 
-import java.io.BufferedWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -153,25 +153,27 @@ public class BakeShopSystemController {
             Path path = Paths.get("order.txt");
             Path orderLinePath = Paths.get("orderLine.txt");
             try{
-                String  check = readAllLines(path).get(readAllLines(path).size() - 1).replaceAll("[\n\r]+$", "");
                 int length = readAllLines(path).size();
-                List<String> line = new ArrayList<>();
-
-                line.add(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + length+1 + ";" +currentStore.getStoreId() + "\n");
-                Files.write(path, line, StandardCharsets.UTF_8, StandardOpenOption.APPEND);}
+                FileWriter fw = new FileWriter("order.txt",true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw);
+                out.println(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + length+1 + ";" +currentStore.getStoreId() );
+//                PrintStream fileStream = new PrintStream(new File(path.toString()));
+//                fileStream.println(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + length+1 + ";" +currentStore.getStoreId());
+              }
             catch(Exception e){
 
             }
 
             try{
-                int length = readAllLines(path).size();
-                String  check = readAllLines(path).get(readAllLines(path).size() - 1).replaceAll("[\n\r]+$", "");
-                List<String> lines = new ArrayList<>();
-                for (Item item : order.getListOfItem().keySet()) {
-                    lines.add( length + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item) +"\n" );
+                int newlength = readAllLines(path).size();
+                FileWriter fw = new FileWriter("orderLine.txt",true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw);
+//                PrintStream newFileStream = new PrintStream(new File(orderLinePath.toString()));
+                for (Item item:order.getListOfItem().keySet()){
+                    out.println(newlength + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item) );
                 }
-                String  checkOrderLine = readAllLines(orderLinePath).get(readAllLines(path).size() - 1).replaceAll("[\n\r]+$", "");
-                Files.write(orderLinePath, lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
             }
             catch (Exception e){
 
