@@ -2,7 +2,10 @@ package fit5136.bakeshop.entities;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,7 +16,6 @@ public class Store {
     private int storeId;
     private String storeName;
     private String storeAddress;
-    private ArrayList<Sale> listOfSales;
     private ArrayList<Order> listOfOrders;
     private Inventory inventory;
     private ArrayList<Staff> listOfStaff;
@@ -43,7 +45,7 @@ public class Store {
         this.inventory = inventory;
         path = Paths.get("order.txt");
         userDatas = null;
-        List<Order> orders = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
         try {
             userDatas = readAllLines(path);
         }
@@ -88,6 +90,8 @@ public class Store {
             order.setListOfItem(itemsLines);
             orders.add(order);}
         }
+        this.listOfOrders = orders;
+
     }
     public int getStoreId() {
         return storeId;
@@ -113,13 +117,6 @@ public class Store {
         this.storeAddress = storeAddress;
     }
 
-    public ArrayList<Sale> getListOfSales() {
-        return listOfSales;
-    }
-
-    public void setListOfSales(ArrayList<Sale> listOfSales) {
-        this.listOfSales = listOfSales;
-    }
 
     public Inventory getInventory() {
         return inventory;
@@ -171,14 +168,54 @@ public class Store {
         }
         return listOfItem;
     }
+
+    public void generateSales(){
+
+    }
     public void generateLastMonthCoffeeBeanSold(){
-        Sale lastMonthSale = this.listOfSales.get(-1);
-        System.out.println("The coffee bean sold in last month is " + lastMonthSale.getCoffeeBeanSold());
+//        2020/10/14;21:49:14
+
+        int amount = 0;
+        for (Order order: listOfOrders) {
+            String s = order.getOrderDate();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy");
+            String year = dateFormat.format(new Date());
+            DateFormat dateFormat1 = new SimpleDateFormat("MM");
+            String month = dateFormat1.format(new Date());
+            String[] s1 = s.split("/");
+            if (s1[0].equals(year) && Integer.parseInt(s1[1]) == (Integer.parseInt(month)-1)) {
+                HashMap<Item, Integer> items = order.getListOfItem();
+                for (Item item : items.keySet())
+                    if (item.getType().equals("coffeeBean")) {
+                        amount += items.get(item);
+                    }
+            }
+
+
+        }
+        System.out.println("The coffee bean sold in last month is " + amount);
     }
 
     public void generateLastMonthFoodItemSold(){
-        Sale lastMonthSale = this.listOfSales.get(-1);
-        System.out.println("The coffee bean sold in last month is " + lastMonthSale.getFoodItemSold());
+        int amount = 0;
+        for (Order order: listOfOrders) {
+            String s = order.getOrderDate();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy");
+            String year = dateFormat.format(new Date());
+            DateFormat dateFormat1 = new SimpleDateFormat("MM");
+            String month = dateFormat1.format(new Date());
+            String[] s1 = s.split("/");
+            if (s1[0].equals(year) && Integer.parseInt(s1[1]) == (Integer.parseInt(month)-1)) {
+                HashMap<Item, Integer> items = order.getListOfItem();
+                for (Item item : items.keySet())
+                    if (item.getType().equals("foodItem")) {
+                        amount += items.get(item);
+                    }
+            }
+
+
+        }
+        System.out.println("The food item sold in last month is " + amount);
     }
 
 }
