@@ -127,9 +127,6 @@ public class BakeShopSystemController {
                         continue;
                 }
 
-                System.out.println(currentItem.getItemName());
-                System.out.println(itemQuantity);
-
                 order.addToList(currentItem,itemQuantity);
 
             }
@@ -152,35 +149,29 @@ public class BakeShopSystemController {
             order.setOrderTime(time);
             Path path = Paths.get("order.txt");
             Path orderLinePath = Paths.get("orderLine.txt");
+            int length = 0;
             try{
-                int length = readAllLines(path).size();
-                FileWriter fw = new FileWriter("order.txt",true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                PrintWriter out = new PrintWriter(bw);
-                out.println(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + length+1 + ";" +currentStore.getStoreId() );
-//                PrintStream fileStream = new PrintStream(new File(path.toString()));
-//                fileStream.println(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + length+1 + ";" +currentStore.getStoreId());
-              }
+                length = readAllLines(path).size();
+                length++;
+                List<String> line = new ArrayList<>();
+                line.add(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + (length) + ";" +currentStore.getStoreId());
+                Files.write(path, line, StandardCharsets.UTF_8, StandardOpenOption.APPEND);}
             catch(Exception e){
 
             }
 
             try{
-                int newlength = readAllLines(path).size();
-                FileWriter fw = new FileWriter("orderLine.txt",true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                PrintWriter out = new PrintWriter(bw);
-//                PrintStream newFileStream = new PrintStream(new File(orderLinePath.toString()));
-                for (Item item:order.getListOfItem().keySet()){
-                    out.println(newlength + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item) );
+                List<String> lines = new ArrayList<>();
+                for (Item item : order.getListOfItem().keySet()) {
+                    lines.add(length + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item) );
                 }
+                    Files.write(orderLinePath, lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
             }
             catch (Exception e){
 
             }
 
         }
-
     }
 
     public Boolean verifyEmployeeUsername(String username) {
@@ -216,4 +207,5 @@ public class BakeShopSystemController {
         }
         return true;
     }
+
 }
