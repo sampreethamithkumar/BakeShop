@@ -3,6 +3,7 @@ package fit5136.bakeshop.controller;
 import fit5136.bakeshop.entities.*;
 import fit5136.bakeshop.userinterface.UserInterface;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class BakeShopSystemController {
@@ -80,7 +81,6 @@ public class BakeShopSystemController {
         	
 
         }
-
     }
 
     public Boolean verifyEmployeeUsername(String username) {
