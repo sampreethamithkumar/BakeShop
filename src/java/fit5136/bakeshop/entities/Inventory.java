@@ -8,8 +8,8 @@ import fit5136.bakeshop.entities.Item;
 
 public class Inventory {
     private HashMap<Item, Integer> listOfItems;
-
     private int storeId;
+
 
     public Inventory(HashMap<Item, Integer> listOfItems) {
         this.listOfItems = listOfItems;

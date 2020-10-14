@@ -127,9 +127,6 @@ public class BakeShopSystemController {
                         continue;
                 }
 
-                System.out.println(currentItem.getItemName());
-                System.out.println(itemQuantity);
-
                 order.addToList(currentItem,itemQuantity);
 
             }
@@ -152,33 +149,29 @@ public class BakeShopSystemController {
             order.setOrderTime(time);
             Path path = Paths.get("order.txt");
             Path orderLinePath = Paths.get("orderLine.txt");
+            int length = 0;
             try{
-                String  check = readAllLines(path).get(readAllLines(path).size() - 1).replaceAll("[\n\r]+$", "");
-                int length = readAllLines(path).size();
+                length = readAllLines(path).size();
+                length++;
                 List<String> line = new ArrayList<>();
-
-                line.add(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + length+1 + ";" +currentStore.getStoreId() + "\n");
+                line.add(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + (length) + ";" +currentStore.getStoreId());
                 Files.write(path, line, StandardCharsets.UTF_8, StandardOpenOption.APPEND);}
             catch(Exception e){
 
             }
 
             try{
-                int length = readAllLines(path).size();
-                String  check = readAllLines(path).get(readAllLines(path).size() - 1).replaceAll("[\n\r]+$", "");
                 List<String> lines = new ArrayList<>();
                 for (Item item : order.getListOfItem().keySet()) {
-                    lines.add( length + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item) +"\n" );
+                    lines.add(length + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item) );
                 }
-                String  checkOrderLine = readAllLines(orderLinePath).get(readAllLines(path).size() - 1).replaceAll("[\n\r]+$", "");
-                Files.write(orderLinePath, lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                    Files.write(orderLinePath, lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
             }
             catch (Exception e){
 
             }
 
         }
-
     }
 
     public Boolean verifyEmployeeUsername(String username) {
@@ -214,4 +207,5 @@ public class BakeShopSystemController {
         }
         return true;
     }
+
 }
