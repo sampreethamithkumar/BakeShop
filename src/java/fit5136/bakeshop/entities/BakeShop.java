@@ -20,7 +20,7 @@ public class BakeShop {
         listOfUser = new ArrayList<User>();
         listOfStore = new ArrayList<Store>();
         //read owner
-        Path path = Paths.get("F:\\Monash\\Semester 2\\FIT5136 - SE\\Bake Shop\\Bake Shop\\src\\resources\\owner.txt");
+        Path path = Paths.get("owner.txt");
         List<String> userDatas = null;
         try {
             userDatas = (readAllLines(path));
@@ -34,7 +34,7 @@ public class BakeShop {
         }
         listOfUser.addAll(owners);
         //read manager
-        path = Paths.get("F:\\Monash\\Semester 2\\FIT5136 - SE\\Bake Shop\\Bake Shop\\src\\resources\\manager.txt");
+        path = Paths.get("manager.txt");
         userDatas = null;
         try {
             userDatas = (readAllLines(path));
@@ -48,7 +48,7 @@ public class BakeShop {
         }
         listOfUser.addAll(managers);
         ///read staff
-        path = Paths.get("F:\\Monash\\Semester 2\\FIT5136 - SE\\Bake Shop\\Bake Shop\\src\\resources\\staff.txt");
+        path = Paths.get("staff.txt");
         userDatas = null;
         try {
             userDatas = (readAllLines(path));
@@ -61,7 +61,7 @@ public class BakeShop {
             staffs.add(staff);
         }
         listOfUser.addAll(staffs);
-        path = Paths.get("F:\\Monash\\Semester 2\\FIT5136 - SE\\Bake Shop\\Bake Shop\\src\\resources\\stores.txt");
+        path = Paths.get("stores.txt");
         List<String> storeDatas = null;
         try {
             storeDatas = (readAllLines(path));
@@ -112,7 +112,7 @@ public class BakeShop {
     }
     
     public List<Item> items() {
-    	Path path = Paths.get("F:\\Monash\\Semester 2\\FIT5136 - SE\\Bake Shop\\Bake Shop\\src\\resources\\item.txt");
+    	Path path = Paths.get("item.txt");
     	List<String> userDatas = null;
     	List<Item> listOfItem = new ArrayList<>();
     	try {
@@ -131,7 +131,7 @@ public class BakeShop {
     }
     
     public Inventory itemCountInInventory() {
-    	Path path = Paths.get("F:\\Monash\\Semester 2\\FIT5136 - SE\\Bake Shop\\Bake Shop\\src\\resources\\inventory.txt");
+    	Path path = Paths.get("inventory.txt");
     	List<String> userDatas = null;
     	List<Item> items = items();
     	Inventory inventory = new Inventory();
