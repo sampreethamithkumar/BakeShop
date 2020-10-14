@@ -3,7 +3,10 @@ package fit5136.bakeshop.entities;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.nio.file.Files.readAllLines;
@@ -70,9 +73,28 @@ public class BakeShop {
         }
         for (String storeLine : storeDatas) {
             String[] storeData = storeLine.split(";");
-            Store store = new Store();
-            store.setStoreId(Integer.parseInt(storeData[0]));
+            Store store = new Store(Integer.parseInt(storeData[0]));
             store.setStoreName(storeData[1]);
+            Manager manager = null;
+            for (User user:this.listOfUser){
+                if(user.getClass().getName().equals("fit5136.bakeshop.entities.Manager")){
+                    Manager target = (Manager)user;
+                    if(target.getStoreId() == store.getStoreId()){
+                        manager = target;
+                    }
+                }
+            }
+            store.setManager(manager);
+            ArrayList<Staff> staffList = new ArrayList<>();
+            for (User user:this.listOfUser){
+                if(user.getClass().getName().equals("fit5136.bakeshop.entities.Staff")){
+                    Staff target = (Staff)user;
+                    if(target.getStoreId() == store.getStoreId()){
+                        staffList.add(target);
+                    }
+                }
+            }
+            store.setListOfStaff(staffList);
             this.listOfStore.add(store);
         }
     }
@@ -111,45 +133,55 @@ public class BakeShop {
         return null;
     }
     
-    public List<Item> items() {
-    	Path path = Paths.get("item.txt");
-    	List<String> userDatas = null;
-    	List<Item> listOfItem = new ArrayList<>();
-    	try {
-    		userDatas = readAllLines(path);
-    	}
-    	catch (Exception e) {
-			// TODO: handle exception
-    		e.printStackTrace();
-		}
-    	for (String items : userDatas) {
-    		String[] userData = items.split(";");
-    		Item item = new Item(Integer.parseInt(userData[0]),userData[1],Integer.parseInt(userData[2]),userData[3]);
-    		listOfItem.add(item);
-    	}
-    	return listOfItem;
-    }
+
     
-    public Inventory itemCountInInventory() {
-    	Path path = Paths.get("inventory.txt");
-    	List<String> userDatas = null;
-    	List<Item> items = items();
-    	Inventory inventory = new Inventory();
-    	try {
-    		userDatas = readAllLines(path);
-    	}
-    	catch (Exception e) {
-			// TODO: handle exception
-    		e.printStackTrace();
-		}
-    	for (String inventoryItem : userDatas) {
-    		String[] userData = inventoryItem.split(";");
-    		for (Item item: items) {
-    			if (userData[0].equals(item.getItemName()))
-    				inventory.addItem(item, Integer.parseInt(userData[1]));
-    		}
-    	}
-    	
-    	return inventory;
+
+
+    public boolean checkItemPresent(String itemName){
+        List<Item> items = items();
+
+        for (Item item: items){
+            if (item.getItemName().equals(itemName))
+                return true;
+        }
+        return false;
+    }
+
+    private Item findItemByName(String itemName){
+        List<Item> items = items();
+
+        for (Item item: items){
+            if (item.getItemName().equals(itemName))
+                return item;
+        }
+        return null;
+    }
+
+    public void addItemToOrder(String itemName,int itemQuantity){
+        Item item = findItemByName(itemName);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String date = new Date().toString();
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        String time = new Date().toString();
+
+    }
+
+    public List<Item> items() {
+        Path path = Paths.get("item.txt");
+        List<String> userDatas = null;
+        List<Item> listOfItem = new ArrayList<>();
+        try {
+            userDatas = readAllLines(path);
+        }
+        catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        for (String items : userDatas) {
+            String[] userData = items.split(";");
+            Item item = new Item(Integer.parseInt(userData[0]),userData[1],Integer.parseInt(userData[2]),userData[3]);
+            listOfItem.add(item);
+        }
+        return listOfItem;
     }
 }
