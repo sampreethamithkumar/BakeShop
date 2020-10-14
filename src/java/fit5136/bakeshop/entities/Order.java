@@ -5,22 +5,28 @@ import java.util.HashMap;
 public class Order {
     private HashMap<Item, Integer> listOfItem;
     private String createdBy;
-    private String orderData;
+    private String orderDate;
     private String orderTime;
-    private boolean orderStatus;
+    private String orderStatus;
     private String nameOfCustomer;
     private double totalCost;
     private int orderNumber;
+    private int storeId;
 
-    public Order(HashMap<Item, Integer> listOfItem, String createdBy, String orderData, String orderTime, boolean orderStatus, String nameOfCustomer, double totalCost, int orderNumber) {
+    public Order(HashMap<Item, Integer> listOfItem, String createdBy, String orderDate, String orderTime, String orderStatus, String nameOfCustomer, double totalCost, int orderNumber, int storeId) {
         this.listOfItem = listOfItem;
         this.createdBy = createdBy;
-        this.orderData = orderData;
+        this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
         this.nameOfCustomer = nameOfCustomer;
         this.totalCost = totalCost;
         this.orderNumber = orderNumber;
+        this.storeId = storeId;
+    }
+
+    public Order(){
+        this.listOfItem = new HashMap<Item, Integer>();
     }
 
     public HashMap<Item, Integer> getListOfItem() {
@@ -39,12 +45,12 @@ public class Order {
         this.createdBy = createdBy;
     }
 
-    public String getOrderData() {
-        return orderData;
+    public String getOrderDate() {
+        return orderDate;
     }
 
-    public void setOrderData(String orderData) {
-        this.orderData = orderData;
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getOrderTime() {
@@ -53,14 +59,6 @@ public class Order {
 
     public void setOrderTime(String orderTime) {
         this.orderTime = orderTime;
-    }
-
-    public boolean isOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(boolean orderStatus) {
-        this.orderStatus = orderStatus;
     }
 
     public String getNameOfCustomer() {
@@ -85,5 +83,30 @@ public class Order {
 
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void addToList(Item item, int quanity){
+        listOfItem.put(item,quanity);
+    }
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public int getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
+    }
+
+    @Override
+    public String toString(){
+        //
+        return "";
     }
 }
