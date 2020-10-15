@@ -1,4 +1,5 @@
 user1;2020/10/14;21:11:18;preparing;sam;8.0;11;1
+<<<<<<< HEAD
 user1;2020/10/14;21:11:18;preparing;sam;8.0;1;1
 user1;2020/9/14;21:49:14;preparing;afafa;20.0;1;1
 user1;2020/9/14;21:51:08;preparing;afa;8.0;1;1
@@ -18,3 +19,8 @@ user1;2020/10/14;23:13:31;preparing;sampreeth;12.0;16;1
 user1;2020/10/14;23:17:35;preparing;sampreeth;23.0;17;1
 user1;2020/10/14;23:21:58;preparing;afa;45.0;18;1
 user1;2020/10/14;23:23:22;preparing;aga;27.0;19;1
+=======
+ZhengdaoHe;2020/10/15;17:20:52;preparing;Bfgag;12.0;2;1
+ZhengdaoHe;2020/10/15;17:29:22;preparing;agfa;8.0;3;1
+ZhengdaoHe;2020/10/15;17:30:07;preparing;sag;12.0;4;1
+>>>>>>> 2ed0a454c15803fbbe1d491236737a2e1fce40e5

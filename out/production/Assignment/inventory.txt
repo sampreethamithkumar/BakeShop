@@ -1,2 +1,1 @@
 1;Pizza;5;
-1;Burger;10;

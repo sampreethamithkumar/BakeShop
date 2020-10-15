@@ -2,6 +2,7 @@ package fit5136.bakeshop.userinterface;
 
 import fit5136.bakeshop.entities.Store;
 import fit5136.bakeshop.entities.Inventory;
+import fit5136.bakeshop.entities.User;
 
 import java.util.List;
 
@@ -62,8 +63,18 @@ public class UserInterface {
         System.out.println("");
         System.out.println("");
     }
+<<<<<<< HEAD
     public static void displayMainMenu(){
         displayBakeShop();
+=======
+    public static void displayMainMenu(User user){
+        for(int i = 0; i < 50; i++){
+            System.out.println("");
+        }
+        System.out.println("===================================");
+        System.out.println("             Bake Shop             ");
+        System.out.println("===================================");
+>>>>>>> 2ed0a454c15803fbbe1d491236737a2e1fce40e5
         System.out.println("         Welcome to BakeShop       ");
         System.out.println("===================================");
         System.out.println("");
@@ -71,6 +82,10 @@ public class UserInterface {
         System.out.println("1.Add new orders");
         System.out.println("2.View or complete orders");
         System.out.println("3.Update or delete orders");
+        if (user.getClass().getName().equals("fit5136.bakeshop.entities.Owner")){
+            System.out.println("4.Coffee bean sold last month");
+            System.out.println("5.Food item sold last month");
+        }
         System.out.println("");
         System.out.println("");
         System.out.println("#.Logout");
@@ -167,6 +182,7 @@ public class UserInterface {
         System.out.println("");
     }
 
+<<<<<<< HEAD
     public static void displayBakeShop(){
         for(int i = 0; i < 50; i++){
             System.out.println("");
@@ -176,4 +192,30 @@ public class UserInterface {
         System.out.println("===================================");
     }
 
+=======
+    public static void displayCoffeeBeanSoldLastMonth(String data){
+        System.out.println("===================================");
+        System.out.println("             Bake Shop             ");
+        System.out.println("===================================");
+        System.out.println();
+        System.out.println(data);
+        System.out.println();
+        System.out.println();
+        System.out.println("*.Return to main menu");
+
+
+    }
+
+    public static void displayFoodItemSoldLastMonth(String data){
+        System.out.println("===================================");
+        System.out.println("             Bake Shop             ");
+        System.out.println("===================================");
+        System.out.println();
+        System.out.println(data);
+        System.out.println();
+        System.out.println();
+        System.out.println("*.Return to main menu");
+
+    }
+>>>>>>> 2ed0a454c15803fbbe1d491236737a2e1fce40e5
 }
