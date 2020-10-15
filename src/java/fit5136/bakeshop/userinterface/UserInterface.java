@@ -63,18 +63,12 @@ public class UserInterface {
         System.out.println("");
         System.out.println("");
     }
-<<<<<<< HEAD
-    public static void displayMainMenu(){
+
+    public static void displayMainMenu() {
         displayBakeShop();
-=======
+    }
     public static void displayMainMenu(User user){
-        for(int i = 0; i < 50; i++){
-            System.out.println("");
-        }
-        System.out.println("===================================");
-        System.out.println("             Bake Shop             ");
-        System.out.println("===================================");
->>>>>>> 2ed0a454c15803fbbe1d491236737a2e1fce40e5
+        displayBakeShop();
         System.out.println("         Welcome to BakeShop       ");
         System.out.println("===================================");
         System.out.println("");
@@ -182,21 +176,8 @@ public class UserInterface {
         System.out.println("");
     }
 
-<<<<<<< HEAD
-    public static void displayBakeShop(){
-        for(int i = 0; i < 50; i++){
-            System.out.println("");
-        }
-        System.out.println("===================================");
-        System.out.println("             Bake Shop             ");
-        System.out.println("===================================");
-    }
-
-=======
     public static void displayCoffeeBeanSoldLastMonth(String data){
-        System.out.println("===================================");
-        System.out.println("             Bake Shop             ");
-        System.out.println("===================================");
+        displayBakeShop();
         System.out.println();
         System.out.println(data);
         System.out.println();
@@ -207,9 +188,7 @@ public class UserInterface {
     }
 
     public static void displayFoodItemSoldLastMonth(String data){
-        System.out.println("===================================");
-        System.out.println("             Bake Shop             ");
-        System.out.println("===================================");
+        displayBakeShop();
         System.out.println();
         System.out.println(data);
         System.out.println();
@@ -217,5 +196,13 @@ public class UserInterface {
         System.out.println("*.Return to main menu");
 
     }
->>>>>>> 2ed0a454c15803fbbe1d491236737a2e1fce40e5
+
+    public static void displayBakeShop(){
+        for(int i = 0; i < 50; i++){
+            System.out.println("");
+        }
+        System.out.println("===================================");
+        System.out.println("             Bake Shop             ");
+        System.out.println("===================================");
+    }
 }
