@@ -4,7 +4,13 @@ import com.sun.deploy.security.SelectableSecurityManager;
 import fit5136.bakeshop.entities.*;
 import fit5136.bakeshop.userinterface.UserInterface;
 
+
+import java.util.Scanner;
+
+import java.io.BufferedWriter;
+
 import java.io.*;
+
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.nio.file.Files.readAllLines;
+
 
 public class BakeShopSystemController {
     private BakeShop bakeshop;
@@ -62,13 +69,58 @@ public class BakeShopSystemController {
             Staff user = (Staff) this.currentUser;
             this.currentStore = this.bakeshop.findStoreById(user.getStoreId());
         }
-        UserInterface.displayMainMenu();
-        userInput = scanner.nextLine();
-        if (userInput.equals("1")) //create a new order
-        {
-            createOrder();
+        Boolean errorStatus = false;
+        loop:
+        while (true) {
+            if(!errorStatus) {
+                UserInterface.displayMainMenu(this.currentUser);}
 
+            userInput = scanner.nextLine();
+
+            if (userInput.equals("1")) //create a new order
+            {
+                createOrder();
+                errorStatus = false;
+                continue;
+            } else if (userInput.equals("4") && this.userType.equals("fit5136.bakeshop.entities.Owner")) {
+                UserInterface.displayCoffeeBeanSoldLastMonth(currentStore.generateLastMonthCoffeeBeanSold());
+                userInput = scanner.nextLine();
+                while (true) {
+                    if (userInput.equals("*")) {
+                        errorStatus = false;
+                        continue loop;
+                    } else {
+                        UserInterface.displayInputErrorPage();
+                        continue;
+                    }
+                }
+
+            } else if (userInput.equals("5") && this.userType.equals("fit5136.bakeshop.entities.Owner")) {
+                UserInterface.displayCoffeeBeanSoldLastMonth(currentStore.generateLastMonthFoodItemSold());
+                userInput = scanner.nextLine();
+                while (true) {
+                    if (userInput.equals("*")) {
+                        errorStatus = false;
+                        continue loop;
+                    } else {
+                        UserInterface.displayInputErrorPage();
+                        continue;
+                    }
+                }
+            } else if(userInput.equals("#")){
+                System.exit(0);
+            }
+            else {
+                while(true){
+                    UserInterface.displayInputErrorPage();
+                    errorStatus = true;
+                    continue loop;
+                }
+
+
+            }
         }
+
     }
 
     public Boolean verifyEmployeeUsername(String username) {

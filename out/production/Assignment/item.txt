@@ -1,2 +1,1 @@
-1;Pizza;4;foodItem;
-2;Burger;5;foodItem;
+1;Pizza;4;coffeeBean;

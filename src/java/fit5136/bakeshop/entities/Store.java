@@ -172,7 +172,7 @@ public class Store {
     public void generateSales(){
 
     }
-    public void generateLastMonthCoffeeBeanSold(){
+    public String generateLastMonthCoffeeBeanSold(){
 //        2020/10/14;21:49:14
 
         int amount = 0;
@@ -193,10 +193,10 @@ public class Store {
 
 
         }
-        System.out.println("The coffee bean sold in last month is " + amount);
+        return "The coffee bean sold in last month is " + amount;
     }
 
-    public void generateLastMonthFoodItemSold(){
+    public String generateLastMonthFoodItemSold(){
         int amount = 0;
         for (Order order: listOfOrders) {
             String s = order.getOrderDate();
@@ -215,7 +215,7 @@ public class Store {
 
 
         }
-        System.out.println("The food item sold in last month is " + amount);
+        return "The food item sold in last month is " + amount;
     }
 
 }
