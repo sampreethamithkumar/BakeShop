@@ -60,31 +60,9 @@ public class BakeShopSystemController {
         userInput = null;
         this.userType = currentUser.getClass().getName();
         System.out.println(this.userType);
-        if (this.userType.equals("fit5136.bakeshop.entities.Owner")) {
-            UserInterface.displayOwnerWelcomePage();
-            userInput = scanner.nextLine();
-            while (true) {
-                if (userInput.equals("1")) {
-                    userInput = null;
-                    UserInterface.displayStoreList(this.bakeshop.getListOfStore());
-                    userInput = scanner.nextLine();
-                    Store store = this.bakeshop.findStoreById(Integer.parseInt(userInput));
-                    while (store == null) {
-                        UserInterface.displayInputErrorPage();
-                        userInput = scanner.nextLine();
-                        store = this.bakeshop.findStoreById(Integer.parseInt(userInput));
-                    }
-                    this.currentStore = store;
-                    break;
-                } else if (userInput.equals("2")) {
-                    System.exit(0);
-                } else {
-                    UserInterface.displayInputErrorPage();
-                    userInput = scanner.nextLine();
-                }
-            }
-
-        } else if (this.userType.equals("fit5136.bakeshop.entities.Manager")) {
+        if (userTypeIsOwner(userType)) {
+            performOwnerTask();
+        } else if (userTypeIsManager(userType)) {
             Manager user = (Manager) this.currentUser;
             this.currentStore = this.bakeshop.findStoreById(user.getStoreId());
         } else if (this.userType.equals("fit5136.bakeshop.entities.Staff")) {
@@ -101,7 +79,7 @@ public class BakeShopSystemController {
 
             if (userInput.equals("1")) //create a new order
             {
-                this.createOrder();
+                createOrder();
                 errorStatus = false;
                 continue;
             } else if (userInput.equals("4") && this.userType.equals("fit5136.bakeshop.entities.Owner")) {
@@ -176,9 +154,47 @@ public class BakeShopSystemController {
         return true;
     }
 
-    public void createOrder() {
-        Order order = new Order();
+    public boolean userTypeIsOwner(String userType) {
+        return userType.equals("fit5136.bakeshop.entities.Owner");
+    }
+
+    public void performOwnerTask() {
         Scanner scanner = new Scanner(System.in);
+        UserInterface.displayOwnerWelcomePage();
+        userInput = scanner.nextLine();
+        while (true) {
+            if (userInput.equals("1")) {
+                userInput = null;
+                UserInterface.displayStoreList(this.bakeshop.getListOfStore());
+                userInput = scanner.nextLine();
+                Store store = findStoreByInputId(userInput);
+                while (store == null) {
+                    UserInterface.displayInputErrorPage();
+                    userInput = scanner.nextLine();
+                    store = findStoreByInputId(userInput);
+                }
+                this.currentStore = store;
+                break;
+            } else if (userInput.equals("2")) {
+                System.exit(0);
+            } else {
+                UserInterface.displayInputErrorPage();
+                userInput = scanner.nextLine();
+            }
+        }
+    }
+
+    public Store findStoreByInputId(String userInput) {
+        return this.bakeshop.findStoreById(Integer.parseInt(userInput));
+    }
+
+    public boolean userTypeIsManager(String userType) {
+        return this.userType.equals("fit5136.bakeshop.entities.Manager");
+    }
+
+    public void createOrder() {
+        Scanner scanner = new Scanner(System.in);
+        Order order = new Order();
 
         boolean endCreating = false;
         while (!endCreating) {
@@ -216,47 +232,46 @@ public class BakeShopSystemController {
             }
 
             order.addToList(currentItem, itemQuantity);
-
-        }
-        UserInterface.displayEnterCustomerName();
-        String customerName = scanner.nextLine();
-        double totalCost = 0;
-        for (Item item : order.getListOfItem().keySet()) {
-            totalCost += item.getCostPerItem() * order.getListOfItem().get(item);
-        }
-        String orderStatus = "preparing";
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Date currentDate = new Date();
-        String date = dateFormat.format(currentDate);
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        Date currentTime = new Date();
-        String time = timeFormat.format(currentTime);
-        order.setCreatedBy(currentUser.getEmployeeName());
-        order.setOrderStatus(orderStatus);
-        order.setOrderDate(date);
-        order.setOrderTime(time);
-        Path path = Paths.get("order.txt");
-        Path orderLinePath = Paths.get("orderLine.txt");
-        int length = 0;
-        try {
-            length = readAllLines(path).size();
-            length++;
-            List<String> line = new ArrayList<>();
-            line.add(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" + customerName + ";" + totalCost + ";" + (length) + ";" + currentStore.getStoreId());
-            Files.write(path, line, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-        } catch (Exception e) {
-
-        }
-
-        try {
-            List<String> lines = new ArrayList<>();
+            UserInterface.displayEnterCustomerName();
+            String customerName = scanner.nextLine();
+            double totalCost = 0;
             for (Item item : order.getListOfItem().keySet()) {
-                lines.add(length + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item));
+                totalCost += item.getCostPerItem() * order.getListOfItem().get(item);
             }
-            Files.write(orderLinePath, lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-        } catch (Exception e) {
+            String orderStatus = "preparing";
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            Date currentDate = new Date();
+            String date = dateFormat.format(currentDate);
+            DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            Date currentTime = new Date();
+            String time = timeFormat.format(currentTime);
+            order.setCreatedBy(currentUser.getEmployeeName());
+            order.setOrderStatus(orderStatus);
+            order.setOrderDate(date);
+            order.setOrderTime(time);
+            Path path = Paths.get("order.txt");
+            Path orderLinePath = Paths.get("orderLine.txt");
+            int length = 0;
+            try {
+                length = readAllLines(path).size();
+                length++;
+                List<String> line = new ArrayList<>();
+                line.add(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" + customerName + ";" + totalCost + ";" + (length) + ";" + currentStore.getStoreId());
+                Files.write(path, line, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            } catch (Exception e) {
 
+            }
+
+            try {
+                List<String> lines = new ArrayList<>();
+                for (Item item : order.getListOfItem().keySet()) {
+                    lines.add(length + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item));
+                }
+                Files.write(orderLinePath, lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            } catch (Exception e) {
+
+            }
         }
-    }
 
+    }
 }
