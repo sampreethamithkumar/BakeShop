@@ -204,4 +204,29 @@ public class UserInterface {
         System.out.println("");
         System.out.println("");
     }
+
+    public static void displayCoffeeBeanSoldLastMonth(String data){
+        System.out.println("===================================");
+        System.out.println("             Bake Shop             ");
+        System.out.println("===================================");
+        System.out.println();
+        System.out.println(data);
+        System.out.println();
+        System.out.println();
+        System.out.println("*.Return to main menu");
+
+
+    }
+
+    public static void displayFoodItemSoldLastMonth(String data){
+        System.out.println("===================================");
+        System.out.println("             Bake Shop             ");
+        System.out.println("===================================");
+        System.out.println();
+        System.out.println(data);
+        System.out.println();
+        System.out.println();
+        System.out.println("*.Return to main menu");
+
+    }
 }
