@@ -31,13 +31,14 @@ public class BakeShopSystemController {
         controller.initialize();
 
     }
+
     public void initialize() {
         this.bakeshop = new BakeShop();
         Scanner scanner = new Scanner(System.in);
         //enter username
         UserInterface.displayLoginPageUsername();
         userInput = scanner.nextLine();
-        while (!verifyEmployeeUsername(userInput)){
+        while (!verifyEmployeeUsername(userInput)) {
             UserInterface.displayUsernameError();
             userInput = scanner.nextLine();
         }
@@ -45,95 +46,144 @@ public class BakeShopSystemController {
         //enter password
         UserInterface.displayLoginPagePassword();
         userInput = scanner.nextLine();
-        while (!verifyPassword(userInput)){
+        while (!verifyPassword(userInput)) {
             UserInterface.displayPasswordError();
             userInput = scanner.nextLine();
         }
         userInput = null;
         this.userType = currentUser.getClass().getName();
         System.out.println(this.userType);
-        if (this.userType.equals("fit5136.bakeshop.entities.Owner")){
-            UserInterface.displayOwnerWelcomePage();
-            userInput = scanner.nextLine();
-            while(true) {
-                if (userInput.equals("1")) {
-                    userInput = null;
-                    UserInterface.displayStoreList(this.bakeshop.getListOfStore());
-                    userInput = scanner.nextLine();
-                    Store store = this.bakeshop.findStoreById(Integer.parseInt(userInput));
-                    while (store == null) {
-                        UserInterface.displayInputErrorPage();
-                        userInput = scanner.nextLine();
-                        store = this.bakeshop.findStoreById(Integer.parseInt(userInput));
-                    }
-                    this.currentStore = store;
-                    break;
-                } else if (userInput.equals("2")) {
-                    System.exit(0);
-                } else{
-                    UserInterface.displayInputErrorPage();
-                    userInput = scanner.nextLine();
-                }
-            }
-
-        }
-        else if(this.userType.equals("fit5136.bakeshop.entities.Manager")){
-            Manager user = (Manager)this.currentUser;
+        if (userTypeIsOwner(userType)) {
+            performOwnerTask();
+        } else if (userTypeIsManager(userType)) {
+            Manager user = (Manager) this.currentUser;
             this.currentStore = this.bakeshop.findStoreById(user.getStoreId());
-        }
-        else if(this.userType.equals("fit5136.bakeshop.entities.Staff")){
-            Staff user = (Staff)this.currentUser;
+        } else if (this.userType.equals("fit5136.bakeshop.entities.Staff")) {
+            Staff user = (Staff) this.currentUser;
             this.currentStore = this.bakeshop.findStoreById(user.getStoreId());
         }
         UserInterface.displayMainMenu();
         userInput = scanner.nextLine();
-        if(userInput.equals("1")) //create a new order
+        if (userInput.equals("1")) //create a new order
         {
-            Order order = new Order();
+            createOrder();
 
-            boolean endCreating= false;
-            while(!endCreating){
-                UserInterface.displayAddItemPage(currentStore.getInventory());
-                String itemName = scanner.nextLine();
-                if(itemName.equals("*")){
-                    break;
-                }
-                Item currentItem = new Item();
-                List<Item> items = currentStore.getInventory().getListItems();
-                boolean isItemFind = false;
-                while(!isItemFind) {
-                    for (Item item : items) {
-                        if (item.getItemName().equals(itemName)) {
-                            currentItem = item;
-                            isItemFind = true;
-                            break;
-                        }
-                    }
-                    if(!isItemFind) {
-                        UserInterface.displayNoSuchItemFound();
-                        itemName = scanner.nextLine();
-                    }
-                }
-                int itemQuantity;
+        }
+    }
 
-                UserInterface.displayEnterItemQuantity();
-                while(true){
+    public Boolean verifyEmployeeUsername(String username) {
+        User userAttempted = this.bakeshop.findUserByUsername(username);
+        if (userAttempted == null) {
+            return false;
+        } else {
+            this.currentUser = userAttempted;
+            return true;
+        }
+    }
+
+    public Boolean verifyPassword(String password) {
+        if (this.currentUser.getPassword().equals(password)) {
+            return true;
+        } else
+            return false;
+    }
+
+    public boolean verifyInputNumber(Item item, String input) {
+        int itemQuantity = -1;
+        try {
+            itemQuantity = Integer.parseInt(input);
+            if (itemQuantity > currentStore.getInventory().getItemNum(item)) {
+                UserInterface.displayNumberGreaterThanInventory();
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean userTypeIsOwner(String userType) {
+        return userType.equals("fit5136.bakeshop.entities.Owner");
+    }
+
+    public void performOwnerTask() {
+        Scanner scanner = new Scanner(System.in);
+        UserInterface.displayOwnerWelcomePage();
+        userInput = scanner.nextLine();
+        while (true) {
+            if (userInput.equals("1")) {
+                userInput = null;
+                UserInterface.displayStoreList(this.bakeshop.getListOfStore());
+                userInput = scanner.nextLine();
+                Store store = findStoreByInputId(userInput);
+                while (store == null) {
+                    UserInterface.displayInputErrorPage();
                     userInput = scanner.nextLine();
-                    if(verifyInputNumber(currentItem,userInput)){
-                        itemQuantity = Integer.parseInt(userInput);
+                    store = findStoreByInputId(userInput);
+                }
+                this.currentStore = store;
+                break;
+            } else if (userInput.equals("2")) {
+                System.exit(0);
+            } else {
+                UserInterface.displayInputErrorPage();
+                userInput = scanner.nextLine();
+            }
+        }
+    }
+
+    public Store findStoreByInputId(String userInput) {
+        return this.bakeshop.findStoreById(Integer.parseInt(userInput));
+    }
+
+    public boolean userTypeIsManager(String userType) {
+        return this.userType.equals("fit5136.bakeshop.entities.Manager");
+    }
+
+    public void createOrder() {
+        Scanner scanner = new Scanner(System.in);
+        Order order = new Order();
+
+        boolean endCreating = false;
+        while (!endCreating) {
+            UserInterface.displayAddItemPage(currentStore.getInventory());
+            String itemName = scanner.nextLine();
+            if (itemName.equals("*")) {
+                break;
+            }
+            Item currentItem = new Item();
+            List<Item> items = currentStore.getInventory().getListItems();
+            boolean isItemFind = false;
+            while (!isItemFind) {
+                for (Item item : items) {
+                    if (item.getItemName().equals(itemName)) {
+                        currentItem = item;
+                        isItemFind = true;
                         break;
                     }
-                    else
-                        continue;
                 }
-
-                order.addToList(currentItem,itemQuantity);
-
+                if (!isItemFind) {
+                    UserInterface.displayNoSuchItemFound();
+                    itemName = scanner.nextLine();
+                }
             }
+            int itemQuantity;
+
+            UserInterface.displayEnterItemQuantity();
+            while (true) {
+                userInput = scanner.nextLine();
+                if (verifyInputNumber(currentItem, userInput)) {
+                    itemQuantity = Integer.parseInt(userInput);
+                    break;
+                } else
+                    continue;
+            }
+
+            order.addToList(currentItem, itemQuantity);
             UserInterface.displayEnterCustomerName();
             String customerName = scanner.nextLine();
             double totalCost = 0;
-            for (Item item: order.getListOfItem().keySet()){
+            for (Item item : order.getListOfItem().keySet()) {
                 totalCost += item.getCostPerItem() * order.getListOfItem().get(item);
             }
             String orderStatus = "preparing";
@@ -150,62 +200,26 @@ public class BakeShopSystemController {
             Path path = Paths.get("order.txt");
             Path orderLinePath = Paths.get("orderLine.txt");
             int length = 0;
-            try{
+            try {
                 length = readAllLines(path).size();
                 length++;
                 List<String> line = new ArrayList<>();
-                line.add(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" +customerName + ";" + totalCost + ";" + (length) + ";" +currentStore.getStoreId());
-                Files.write(path, line, StandardCharsets.UTF_8, StandardOpenOption.APPEND);}
-            catch(Exception e){
+                line.add(currentUser.getEmployeeName() + ";" + date + ";" + time + ";" + orderStatus + ";" + customerName + ";" + totalCost + ";" + (length) + ";" + currentStore.getStoreId());
+                Files.write(path, line, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            } catch (Exception e) {
 
             }
 
-            try{
+            try {
                 List<String> lines = new ArrayList<>();
                 for (Item item : order.getListOfItem().keySet()) {
-                    lines.add(length + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item) );
+                    lines.add(length + ";" + item.getItemNum() + ";" + order.getListOfItem().get(item));
                 }
-                    Files.write(orderLinePath, lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-            }
-            catch (Exception e){
+                Files.write(orderLinePath, lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            } catch (Exception e) {
 
             }
-
         }
+
     }
-
-    public Boolean verifyEmployeeUsername(String username) {
-        User userAttempted = this.bakeshop.findUserByUsername(username);
-        if (userAttempted == null) {
-            return false;
-        } else {
-            this.currentUser = userAttempted;
-            return true;
-        }
-    }
-
-    public Boolean verifyPassword(String password){
-        if (this.currentUser.getPassword().equals(password)){
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public boolean verifyInputNumber(Item item, String input){
-        int itemQuantity = -1;
-        try {
-            itemQuantity = Integer.parseInt(input);
-            if(itemQuantity > currentStore.getInventory().getItemNum(item)){
-                UserInterface.displayNumberGreaterThanInventory();
-                return false;
-            }
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
-        return true;
-    }
-
 }
