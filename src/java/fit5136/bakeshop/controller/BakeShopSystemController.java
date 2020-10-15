@@ -93,8 +93,10 @@ public class BakeShopSystemController {
             Staff user = (Staff)this.currentUser;
             this.currentStore = this.bakeshop.findStoreById(user.getStoreId());
         }
-        UserInterface.displayMainMenu();
+        UserInterface.displayMainMenu(this.currentUser);
+
         userInput = scanner.nextLine();
+
         if(userInput.equals("1")) //create a new order
         {
             Order order = new Order();
@@ -179,6 +181,15 @@ public class BakeShopSystemController {
 
             }
 
+        }
+        else if(userInput.equals("4")&&this.userType.equals("fit5136.bakeshop.entities.Owner")){
+            currentStore.generateLastMonthCoffeeBeanSold();
+        }
+        else if(userInput.equals("5")&&this.userType.equals("fit5136.bakeshop.entities.Owner")){
+            currentStore.generateLastMonthFoodItemSold();
+        }
+        else{
+            UserInterface.displayInputErrorPage();
         }
     }
 

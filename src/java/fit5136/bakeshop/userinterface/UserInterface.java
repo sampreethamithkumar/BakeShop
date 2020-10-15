@@ -2,6 +2,7 @@ package fit5136.bakeshop.userinterface;
 
 import fit5136.bakeshop.entities.Store;
 import fit5136.bakeshop.entities.Inventory;
+import fit5136.bakeshop.entities.User;
 
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class UserInterface {
         System.out.println("");
         System.out.println("");
     }
-    public static void displayMainMenu(){
+    public static void displayMainMenu(User user){
         for(int i = 0; i < 50; i++){
             System.out.println("");
         }
@@ -92,6 +93,10 @@ public class UserInterface {
         System.out.println("1.Add new orders");
         System.out.println("2.View or complete orders");
         System.out.println("3.Update or delete orders");
+        if (user.getClass().getName().equals("fit5136.bakeshop.entities.Owner")){
+            System.out.println("4.Coffee bean sold last month");
+            System.out.println("5.Food item sold last month");
+        }
         System.out.println("");
         System.out.println("");
         System.out.println("#.Logout");
