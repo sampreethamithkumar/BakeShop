@@ -64,7 +64,10 @@ public class UserInterface {
         System.out.println("");
     }
 
-    public static void displayMainMenu(){
+    public static void displayMainMenu() {
+        displayBakeShop();
+    }
+    public static void displayMainMenu(User user){
         displayBakeShop();
         System.out.println("         Welcome to BakeShop       ");
         System.out.println("===================================");
@@ -193,6 +196,7 @@ public class UserInterface {
         System.out.println("*.Return to main menu");
 
     }
+
     public static void displayBakeShop(){
         for(int i = 0; i < 50; i++){
             System.out.println("");
@@ -200,5 +204,30 @@ public class UserInterface {
         System.out.println("===================================");
         System.out.println("             Bake Shop             ");
         System.out.println("===================================");
+    }
+
+    public static void displaySearchFunction(){
+        displayBakeShop();
+        System.out.println();
+        System.out.println("Please enter item to search in the inventory: ");
+    }
+
+    public static void displayItemsFromSearchResult(List<String> itemsName){
+        displayBakeShop();
+        System.out.println("     List of items in inventory    ");
+        System.out.println("===================================");
+        System.out.println();
+        System.out.println("");
+        if (itemsName.size() == 0 || itemsName == null){
+            System.out.println("No Items found.");
+            System.out.println("Please Enter the item again: ");
+        }
+        else
+            itemsName.forEach(itemName -> System.out.println(itemName));
+    }
+
+    public static void displayEnterItemFromSearch(){
+        System.out.println("===================================");
+        System.out.print("Please Enter the Item from search result: ");
     }
 }
