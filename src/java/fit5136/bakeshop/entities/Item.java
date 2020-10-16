@@ -13,6 +13,9 @@ public class Item {
         this.type = type;
     }
 
+    public Item() {
+    }
+
     public int getItemNum() {
         return itemNum;
     }

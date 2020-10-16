@@ -1,10 +1,15 @@
 package fit5136.bakeshop.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import fit5136.bakeshop.entities.Item;
 
 public class Inventory {
     private HashMap<Item, Integer> listOfItems;
+    private int storeId;
+
 
     public Inventory(HashMap<Item, Integer> listOfItems) {
         this.listOfItems = listOfItems;
@@ -47,5 +52,19 @@ public class Inventory {
         return inventoryList;
     }
 
+    public int getStoreId() {
+        return storeId;
+    }
 
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
+    }
+
+    public HashMap<Item, Integer> getListOfItems() {
+        return listOfItems;
+    }
+
+    public List<Item> getListItems() {
+        return new ArrayList<>(listOfItems.keySet());
+    }
 }
