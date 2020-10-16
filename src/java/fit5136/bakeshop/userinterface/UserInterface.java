@@ -1,9 +1,11 @@
 package fit5136.bakeshop.userinterface;
 
+import fit5136.bakeshop.entities.Item;
 import fit5136.bakeshop.entities.Store;
 import fit5136.bakeshop.entities.Inventory;
 import fit5136.bakeshop.entities.User;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class UserInterface {
@@ -27,8 +29,6 @@ public class UserInterface {
         System.out.println("  *************Login************  ");
         System.out.println("");
         System.out.println("    Please input your password:    ");
-        System.out.println("");
-        System.out.println("");
         System.out.print("        ");
     }
     public static void displayPasswordError(){
@@ -81,47 +81,29 @@ public class UserInterface {
             System.out.println("5.Food item sold last month");
         }
         System.out.println("");
-        System.out.println("");
         System.out.println("#.Logout");
-        System.out.println("");
         System.out.println("");
     }
 
     public static void displayInputErrorPage(){
-        displayBakeShop();
-        System.out.print("          invalid!!             ");
+        System.out.print("        invalid input!!          ");
         System.out.println();
         System.out.println("   Please input again:        ");
-        System.out.print("        ");
+        System.out.print("");
 
     }
 
-    public static void displayAddItemPage(Inventory inventory){
-        displayBakeShop();
-        System.out.println("         Create a new order        ");
-        System.out.println("===================================");
-        System.out.println("");
-        System.out.println("   Please choose an item to add:   ");
-        System.out.println(inventory.getItemNameList());
-        System.out.println("");
-        System.out.println("");
-        System.out.println("*.Finish the order");
-        System.out.println("#.Logout");
-        System.out.println("");
-        System.out.println("");
-
-    }
 
     public static void displayEnterItemQuantity(){
         displayBakeShop();
         System.out.print("   Please Enter the item Quantity:   ");
+        System.out.println("");
     }
 
     public static void displayNoSuchItemFound(){
         displayBakeShop();
         System.out.print("   !!No Such Item Found!!   ");
         System.out.println("");
-        System.out.print("   Please Enter the Item Again   ");
     }
 
     public static void displayEnterNumber(){
@@ -131,19 +113,17 @@ public class UserInterface {
         System.out.println("");
         System.out.println("Please enter the Number of the item:");
         System.out.println("");
+        System.out.println("#.Back to Main Page");
         System.out.println("");
-        System.out.println("#.Logout");
-        System.out.println("");
-        System.out.println("");
-
     }
 
     public static void displayEnterCustomerName(){
         displayBakeShop();
-        System.out.println("         Enter Customer Name        ");
+        System.out.println("        Enter Customer Name        ");
         System.out.println("===================================");
         System.out.println("");
         System.out.println("   Please enter Customer Name:    ");
+        System.out.println("");
     }
 
     public static void displayErrorNumber(){
@@ -155,10 +135,6 @@ public class UserInterface {
         System.out.println("");
         System.out.println("Please enter the Number of the item:");
         System.out.println("");
-        System.out.println("");
-        System.out.println("#.Logout");
-        System.out.println("");
-        System.out.println("");
     }
 
     public static void displayNumberGreaterThanInventory(){
@@ -169,10 +145,6 @@ public class UserInterface {
         System.out.println("The input number is greater than inventory");
         System.out.println("");
         System.out.println("Please enter the Number of the item:");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("#.Logout");
-        System.out.println("");
         System.out.println("");
     }
 
@@ -198,7 +170,7 @@ public class UserInterface {
     }
 
     public static void displayBakeShop(){
-        for(int i = 0; i < 50; i++){
+        for(int i = 0; i < 10; i++){
             System.out.println("");
         }
         System.out.println("===================================");
@@ -206,28 +178,63 @@ public class UserInterface {
         System.out.println("===================================");
     }
 
-    public static void displaySearchFunction(){
+    public static void displaySearchFunction(boolean isFistTime){
         displayBakeShop();
         System.out.println();
         System.out.println("Please enter item to search in the inventory: ");
+        if(isFistTime)
+            System.out.println("Enter * to go back to Main Menu");
+        else
+            System.out.println("Enter * to finish the order");
+        System.out.println();
     }
 
-    public static void displayItemsFromSearchResult(List<String> itemsName){
+    public static void displayItemsFromSearchResult(HashMap<Integer, Item> searchItems){
         displayBakeShop();
         System.out.println("     List of items in inventory    ");
         System.out.println("===================================");
         System.out.println();
         System.out.println("");
-        if (itemsName.size() == 0 || itemsName == null){
+        if (searchItems.size() == 0){
             System.out.println("No Items found.");
             System.out.println("Please Enter the item again: ");
         }
         else
-            itemsName.forEach(itemName -> System.out.println(itemName));
+        {
+            for(int i = 1; i < searchItems.size() + 1; i++)
+            {
+                System.out.println(i + "    " + searchItems.get(i).getItemName() + "\n");
+            }
+        }
+        System.out.println("===================================");
+        System.out.println();
     }
 
     public static void displayEnterItemFromSearch(){
         System.out.println("===================================");
-        System.out.print("Please Enter the Item from search result: ");
+        System.out.print("Please Enter the number of Item to choose an item: ");
+        System.out.println();
+        System.out.print("Enter * to go back to search page");
+        System.out.println();
     }
+
+    public static void displayCurrentOrder(String orderDetail){
+        System.out.println("===================================");
+        System.out.println();
+        System.out.println(orderDetail);
+        System.out.println();
+        System.out.println("===================================");
+        System.out.println("Enter * to finish the order");
+        System.out.print("or enter any other key to continue add items");
+        System.out.println();
+    }
+
+    public static void displayFinshedOrder(String orderDetail){
+        System.out.println("===================================");
+        System.out.println(orderDetail);
+        System.out.println("===================================");
+        System.out.println("Enter any key back to Main Menu");
+        System.out.println();
+    }
+
 }
