@@ -22,81 +22,28 @@ public class BakeShop {
         List<Manager> managers = new ArrayList<Manager>();
         listOfUser = new ArrayList<User>();
         listOfStore = new ArrayList<Store>();
-        //read owner
-        Path path = Paths.get("owner.txt");
-        List<String> userDatas = null;
-        try {
-            userDatas = (readAllLines(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (String userLine : userDatas) {
-            String[] userData = userLine.split(";");
-            Owner owner = new Owner(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3], userData[4], userData[5], Integer.parseInt(userData[6]));
-            owners.add(owner);
-        }
+        /**
+         * Read owner txt file and add it to list of users.
+         */
+        owners = readOwnerTxt(owners);
         listOfUser.addAll(owners);
-        //read manager
-        path = Paths.get("manager.txt");
-        userDatas = null;
-        try {
-            userDatas = (readAllLines(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (String userLine : userDatas) {
-            String[] userData = userLine.split(";");
-            Manager manager = new Manager(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3], userData[4], userData[5], Integer.parseInt(userData[6]), Integer.parseInt(userData[7]));
-            managers.add(manager);
-        }
+
+        /**
+         * Read Manager txt file and add it to list of users.
+         */
+        managers = readManagersTxt(managers);
         listOfUser.addAll(managers);
-        ///read staff
-        path = Paths.get("staff.txt");
-        userDatas = null;
-        try {
-            userDatas = (readAllLines(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (String userLine : userDatas) {
-            String[] userData = userLine.split(";");
-            Staff staff = new Staff(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3], userData[4], userData[5], Integer.parseInt(userData[6]), Integer.parseInt(userData[7]));
-            staffs.add(staff);
-        }
+
+        /**
+         * Read Staff txt file and add it to list of users.
+         */
+        staffs = readStaffsTxt(staffs);
         listOfUser.addAll(staffs);
-        path = Paths.get("stores.txt");
-        List<String> storeDatas = null;
-        try {
-            storeDatas = (readAllLines(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (String storeLine : storeDatas) {
-            String[] storeData = storeLine.split(";");
-            Store store = new Store(Integer.parseInt(storeData[0]));
-            store.setStoreName(storeData[1]);
-            Manager manager = null;
-            for (User user:this.listOfUser){
-                if(user.getClass().getName().equals("fit5136.bakeshop.entities.Manager")){
-                    Manager target = (Manager)user;
-                    if(target.getStoreId() == store.getStoreId()){
-                        manager = target;
-                    }
-                }
-            }
-            store.setManager(manager);
-            ArrayList<Staff> staffList = new ArrayList<>();
-            for (User user:this.listOfUser){
-                if(user.getClass().getName().equals("fit5136.bakeshop.entities.Staff")){
-                    Staff target = (Staff)user;
-                    if(target.getStoreId() == store.getStoreId()){
-                        staffList.add(target);
-                    }
-                }
-            }
-            store.setListOfStaff(staffList);
-            this.listOfStore.add(store);
-        }
+
+        /**
+         * Read store txt file and add it to list of stores.
+         */
+        readStoreTxt();
     }
 
     public List<Store> getListOfStore() {
@@ -132,21 +79,13 @@ public class BakeShop {
         }
         return null;
     }
-    
-
-    
 
 
-    public boolean checkItemPresent(String itemName){
-        List<Item> items = items();
-
-        for (Item item: items){
-            if (item.getItemName().equals(itemName))
-                return true;
-        }
-        return false;
-    }
-
+    /**
+     * Search Item by Name
+     * @param itemName
+     * @return Item
+     */
     private Item findItemByName(String itemName){
         List<Item> items = items();
 
@@ -157,15 +96,10 @@ public class BakeShop {
         return null;
     }
 
-    public void addItemToOrder(String itemName,int itemQuantity){
-        Item item = findItemByName(itemName);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        String date = new Date().toString();
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        String time = new Date().toString();
-
-    }
-
+    /**
+     * items in inventory
+     * @return List<Item>
+     */
     public List<Item> items() {
         Path path = Paths.get("item.txt");
         List<String> userDatas = null;
@@ -183,5 +117,109 @@ public class BakeShop {
             listOfItem.add(item);
         }
         return listOfItem;
+    }
+
+    /**
+     * Reading owner txt file.
+     * @param owners
+     * @return List<owner>
+     */
+    private List<Owner> readOwnerTxt(List<Owner> owners){
+        Path path = Paths.get("owner.txt");
+        List<String> userDatas = null;
+        try {
+            userDatas = (readAllLines(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (String userLine : userDatas) {
+            String[] userData = userLine.split(";");
+            Owner owner = new Owner(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3], userData[4], userData[5], Integer.parseInt(userData[6]));
+            owners.add(owner);
+        }
+        return owners;
+    }
+
+    /**
+     * Reading Manager txt file.
+     * @param managers
+     * @return List<Managers>
+     */
+    private List<Manager> readManagersTxt(List<Manager> managers){
+        Path path = Paths.get("manager.txt");
+        List<String> userDatas = null;
+
+        try {
+            userDatas = (readAllLines(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (String userLine : userDatas) {
+            String[] userData = userLine.split(";");
+            Manager manager = new Manager(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3], userData[4], userData[5], Integer.parseInt(userData[6]), Integer.parseInt(userData[7]));
+            managers.add(manager);
+        }
+        return managers;
+    }
+
+    /**
+     * Reading staff txt
+     * @param staffs
+     * @return List<Staff>
+     */
+    private List<Staff> readStaffsTxt(List<Staff> staffs){
+        Path path = Paths.get("staff.txt");
+        List<String> userDatas = null;
+
+        try {
+            userDatas = (readAllLines(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (String userLine : userDatas) {
+            String[] userData = userLine.split(";");
+            Staff staff = new Staff(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3], userData[4], userData[5], Integer.parseInt(userData[6]), Integer.parseInt(userData[7]));
+            staffs.add(staff);
+        }
+        return staffs;
+    }
+
+    /**
+     * Reading Store txt file
+     */
+    private void readStoreTxt(){
+        Path path = Paths.get("stores.txt");
+        List<String> storeDatas = null;
+        try {
+            storeDatas = (readAllLines(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (String storeLine : storeDatas) {
+            String[] storeData = storeLine.split(";");
+            Store store = new Store(Integer.parseInt(storeData[0]));
+            store.setStoreName(storeData[1]);
+            Manager manager = null;
+            for (User user:this.listOfUser){
+                if(user.getClass().getName().equals("fit5136.bakeshop.entities.Manager")){
+                    Manager target = (Manager)user;
+                    if(target.getStoreId() == store.getStoreId()){
+                        manager = target;
+                    }
+                }
+            }
+            store.setManager(manager);
+            ArrayList<Staff> staffList = new ArrayList<>();
+            for (User user:this.listOfUser){
+                if(user.getClass().getName().equals("fit5136.bakeshop.entities.Staff")){
+                    Staff target = (Staff)user;
+                    if(target.getStoreId() == store.getStoreId()){
+                        staffList.add(target);
+                    }
+                }
+            }
+            store.setListOfStaff(staffList);
+            this.listOfStore.add(store);
+        }
     }
 }
