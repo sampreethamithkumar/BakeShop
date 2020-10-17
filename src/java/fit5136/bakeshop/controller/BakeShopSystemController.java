@@ -40,7 +40,6 @@ public class BakeShopSystemController {
     public void initialize() {
         this.bakeshop = new BakeShop();
         Scanner scanner = new Scanner(System.in);
-
         /**
          * Enter User name
          */
@@ -92,8 +91,7 @@ public class BakeShopSystemController {
              * Option 1 : Create Order
              * Option 2 :
              * Option 3 :
-             * Option 4 : Coffee Bean sold last month
-             * Option 5 : Coffee Bean sold last month?
+             * Option 4 : Report of last month
              *
              * Option # : Logout
              * Option unknown : Error message
@@ -106,31 +104,9 @@ public class BakeShopSystemController {
             }
             else if (userInput.equals("4") && this.userType.equals("fit5136.bakeshop.entities.Owner"))
             {
-                UserInterface.displayCoffeeBeanSoldLastMonth(currentStore.generateLastMonthCoffeeBeanSold());
-                userInput = optionSelectedByUser();
-                while (true) {
-                    if (userInput.equals("*")) {
-                        errorStatus = false;
-                        continue loop;
-                    } else {
-                        UserInterface.displayInputErrorPage();
-                        continue;
-                    }
-                }
-
-            }
-            else if (userInput.equals("5") && this.userType.equals("fit5136.bakeshop.entities.Owner")) {
-                UserInterface.displayCoffeeBeanSoldLastMonth(currentStore.generateLastMonthFoodItemSold());
-                userInput = optionSelectedByUser();
-                while (true) {
-                    if (userInput.equals("*")) {
-                        errorStatus = false;
-                        continue loop;
-                    } else {
-                        UserInterface.displayInputErrorPage();
-                        continue;
-                    }
-                }
+                generateReport();
+                errorStatus = false;
+                continue;
             }
             else if(userInput.equals("#")){
                 System.exit(0);
@@ -144,6 +120,83 @@ public class BakeShopSystemController {
             }
         }
 
+    }
+
+    private void generateReport() {
+        loop: while (true) {
+            UserInterface.displayReportMenu();
+            while (true) {
+                userInput = optionSelectedByUser();
+                if (userInput.equals("*")) {
+                    break loop;
+
+                } else if (userInput.equals("1")) {
+                    UserInterface.displayReport(currentStore.generateLastMonthCoffeeBeanSold());
+                    userInput = optionSelectedByUser();
+                    if (userInput.equals("*")) {
+                        continue loop;
+                    }
+                    else {
+                        UserInterface.displayInputErrorPage();
+                        continue;
+                    }
+                } else if (userInput.equals("2")) {
+                    UserInterface.displayReport(currentStore.generateLastMonthFoodItemSold());
+                    userInput = optionSelectedByUser();
+                    if (userInput.equals("*")) {
+                        continue loop;
+                    }
+                    else {
+                        UserInterface.displayInputErrorPage();
+                        continue;
+                    }
+                } else if (userInput.equals("3")) {
+                    UserInterface.displayReport(currentStore.generateLastMonthCoffeeSold());
+                    userInput = optionSelectedByUser();
+                    if (userInput.equals("*")) {
+                        continue loop;
+                    }
+                    else {
+                        UserInterface.displayInputErrorPage();
+                        continue;
+                    }
+                } else if (userInput.equals("4")) {
+                    UserInterface.displayReport(currentStore.generatePeakDayLastMonth());
+                    userInput = optionSelectedByUser();
+                    if (userInput.equals("*")) {
+                        continue loop;
+                    }
+                    else {
+                        UserInterface.displayInputErrorPage();
+                        continue;
+                    }
+                } else if (userInput.equals("5")) {
+                    UserInterface.displayReport(currentStore.generateLastMonthTotalSale());
+                    userInput = optionSelectedByUser();
+                    if (userInput.equals("*")) {
+                        continue loop;
+                    }
+                    else {
+                        UserInterface.displayInputErrorPage();
+                        continue;
+                    }
+                }
+                else if (userInput.equals("6")) {
+                    UserInterface.displayReport(currentStore.generateItemLowInInventory());
+                    userInput = optionSelectedByUser();
+                    if (userInput.equals("*")) {
+                        continue loop;
+                    }
+                    else {
+                        UserInterface.displayInputErrorPage();
+                        continue;
+                    }
+                }else {
+                    UserInterface.displayInputErrorPage();
+                    continue;
+                }
+            }
+        }
     }
 
     /**
