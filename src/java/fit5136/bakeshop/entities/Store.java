@@ -26,6 +26,7 @@ public class Store {
         List<String> userDatas = null;
         List<Item> items = items();
         Inventory inventory = new Inventory();
+        inventory.setStoreId(this.getStoreId());
         try {
             userDatas = readAllLines(path);
         }

@@ -90,7 +90,10 @@ public class Order {
     }
 
     public void addToList(Item item, int quanity){
-        listOfItem.put(item,quanity);
+        if(listOfItem.containsKey(item))
+            listOfItem.put(item, listOfItem.get(item) + quanity);
+        else
+            listOfItem.put(item,quanity);
     }
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
@@ -104,9 +107,38 @@ public class Order {
         this.storeId = storeId;
     }
 
+
+    public String getOrderDetail() {
+        String orderDetail = "Order Detail:\n";
+        orderDetail += "===================================\n";
+        orderDetail += "Item Name       Amount\n";
+        for(Item item : this.listOfItem.keySet())
+        {
+            orderDetail += item.getItemName() + "       " + listOfItem.get(item) + "\n";
+        }
+        orderDetail += "===================================\n";
+        orderDetail += "Total Cost: " + this.getTotalCost() + "\n";
+        return orderDetail;
+    }
+
     @Override
-    public String toString(){
-        //
-        return "";
+    public String toString() {
+        String orderFullDetail = "Order Detail:\n";
+        orderFullDetail += "Order Number: " + this.getOrderNumber() + "\n";
+        orderFullDetail += "===================================\n";
+        orderFullDetail += "Item Name       Amount\n";
+        for(Item item : this.listOfItem.keySet())
+        {
+            orderFullDetail += item.getItemName() + "       " + listOfItem.get(item) + "\n";
+        }
+        orderFullDetail += "===================================\n";
+        orderFullDetail += "Total Cost: " + this.getTotalCost() + "\n";
+        orderFullDetail += "Created By: " + this.getCreatedBy() + "     ";
+        orderFullDetail += "Name Of Customer: " + this.getNameOfCustomer() + "\n";
+        orderFullDetail += "Order Date: " + this.getOrderDate() + "     ";
+        orderFullDetail += "Order Time: " + this.getOrderTime() + "\n";
+        orderFullDetail += "Order Status: " + this.getOrderStatus() + "     ";
+        orderFullDetail += "Store Id: " + this.getStoreId() + "\n";
+        return orderFullDetail;
     }
 }
