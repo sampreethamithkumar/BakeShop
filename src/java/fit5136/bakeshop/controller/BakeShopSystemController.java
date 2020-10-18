@@ -89,8 +89,8 @@ public class BakeShopSystemController {
 
             /**
              * Option 1 : Create Order
-             * Option 2 :
-             * Option 3 :
+             * Option 2 : View or Complete orders
+             * Option 3 : Update or delete orders
              * Option 4 : Report of last month
              *
              * Option # : Logout

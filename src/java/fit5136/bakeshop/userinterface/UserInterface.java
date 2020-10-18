@@ -219,7 +219,7 @@ public class UserInterface {
 
     public static void displayEnterItemFromSearch(){
         System.out.println("===================================");
-        System.out.print("Please Enter the number of Item to choose an item: ");
+        System.out.print("Please Enter Item number to choose an item from the list: ");
         System.out.println();
         System.out.print("Enter * to go back to search page");
         System.out.println();

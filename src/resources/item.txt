@@ -1,1 +1,14 @@
 1;Pizza;4;coffeeBean;
+2;Burger;10;foodItem;
+3;Pie;20;foodItem;
+4;Latte;5;coffee;
+5;Americano;30;coffee;
+6;Espresso;2;coffee;
+7;Cappuccino;50;coffee;
+8;Pea and ham soup;1;foodItem;
+10;Weet-Bix;30;foodItem;
+11;Fries;2;foodItem;
+12;Ham;3;foodItem;
+13;Robusta;5;coffeeBean;
+14;Arabica;10;coffeeBean;
+15;Canephora;15;coffeeBean;
