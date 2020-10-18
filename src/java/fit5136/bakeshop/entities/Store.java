@@ -26,6 +26,7 @@ public class Store {
         List<String> userDatas = null;
         List<Item> items = items();
         Inventory inventory = new Inventory();
+        inventory.setStoreId(this.getStoreId());
         try {
             userDatas = readAllLines(path);
         }
@@ -216,6 +217,84 @@ public class Store {
 
         }
         return "The food item sold in last month is " + amount;
+    }
+
+    public String generateLastMonthCoffeeSold(){
+        int amount = 0;
+        for (Order order: listOfOrders) {
+            String s = order.getOrderDate();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy");
+            String year = dateFormat.format(new Date());
+            DateFormat dateFormat1 = new SimpleDateFormat("MM");
+            String month = dateFormat1.format(new Date());
+            String[] s1 = s.split("/");
+            if (s1[0].equals(year) && Integer.parseInt(s1[1]) == (Integer.parseInt(month)-1)) {
+                HashMap<Item, Integer> items = order.getListOfItem();
+                for (Item item : items.keySet())
+                    if (item.getType().equals("coffee")) {
+                        amount += items.get(item);
+                    }
+            }
+
+
+        }
+        return "The coffee sold in last month is " + amount;
+    }
+
+    public String generatePeakDayLastMonth() {
+        double peakDayCost = 0;
+        int peakDay = 0;
+        for (int day = 1; day <= 31; day++) {
+            double costPerDay = 0;
+            for (Order order : listOfOrders) {
+                String s = order.getOrderDate();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy");
+                String year = dateFormat.format(new Date());
+                DateFormat dateFormat1 = new SimpleDateFormat("MM");
+                String month = dateFormat1.format(new Date());
+                DateFormat dateFormat2 = new SimpleDateFormat("dd");
+                String days = dateFormat2.format(new Date());
+                String[] s1 = s.split("/");
+                if (s1[0].equals(year) && Integer.parseInt(s1[1]) == (Integer.parseInt(month) - 1) && Integer.parseInt(days) == day) {
+                    costPerDay += order.getTotalCost();
+                }
+            }
+            if(costPerDay > peakDayCost){
+                peakDayCost = costPerDay;
+                peakDay = day;
+
+            }
+        }
+        return "The peak day in last month is " + peakDay + " with sale of " + peakDayCost;
+    }
+
+    public String generateLastMonthTotalSale(){
+        int sale = 0;
+        for (Order order: listOfOrders) {
+            String s = order.getOrderDate();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy");
+            String year = dateFormat.format(new Date());
+            DateFormat dateFormat1 = new SimpleDateFormat("MM");
+            String month = dateFormat1.format(new Date());
+            String[] s1 = s.split("/");
+            if (s1[0].equals(year) && Integer.parseInt(s1[1]) == (Integer.parseInt(month)-1)) {
+                sale += order.getTotalCost();
+            }
+
+
+        }
+        return "The total sale in last month is " + sale;
+    }
+
+    public String generateItemLowInInventory(){
+        HashMap<Item,Integer> items = this.inventory.generateItemLow();
+        String report = "";
+        int index = 1;
+        for (Item item : items.keySet()){
+            report += index + ". " + item.getItemName() + " with quantity: " + items.get(item) + "\n";
+            index++;
+        }
+        return "The items low in inventory is: \n" + report;
     }
 
 }
