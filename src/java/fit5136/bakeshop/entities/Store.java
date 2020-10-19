@@ -196,7 +196,7 @@ public class Store {
         }
         return "The coffee bean sold in last month is " + amount;
     }
-
+// get the foodItem sold last month
     public String generateLastMonthFoodItemSold(){
         int amount = 0;
         for (Order order: listOfOrders) {
