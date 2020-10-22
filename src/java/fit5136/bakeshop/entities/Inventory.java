@@ -67,4 +67,14 @@ public class Inventory {
     public List<Item> getListItems() {
         return new ArrayList<>(listOfItems.keySet());
     }
+
+    public HashMap<Item, Integer> generateItemLow(){
+        HashMap<Item, Integer> result = new HashMap<>();
+        for (Item item : this.listOfItems.keySet()){
+            if (this.listOfItems.get(item) <= 20){
+                result.put(item,this.listOfItems.get(item));
+            }
+        }
+        return  result;
+    }
 }
