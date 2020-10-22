@@ -77,8 +77,7 @@ public class UserInterface {
         System.out.println("2.View or complete orders");
         System.out.println("3.Update or delete orders");
         if (user.getClass().getName().equals("fit5136.bakeshop.entities.Owner")){
-            System.out.println("4.Coffee bean sold last month");
-            System.out.println("5.Food item sold last month");
+            System.out.println("4.Reports of last month");
         }
         System.out.println("");
         System.out.println("#.Logout");
@@ -148,26 +147,34 @@ public class UserInterface {
         System.out.println("");
     }
 
-    public static void displayCoffeeBeanSoldLastMonth(String data){
+    public static void displayReportMenu(){
+        displayBakeShop();
+        System.out.println("         Welcome to BakeShop       ");
+        System.out.println("===================================");
+        System.out.println("");
+        System.out.println("Choose the report you want to check");
+        System.out.println("");
+        System.out.println("1.Coffee bean sold last month");
+        System.out.println("2.Food item sold last month");
+        System.out.println("3.Coffee Sold last month");
+        System.out.println("4.Peak Day Of The Month");
+        System.out.println("5.Last Month Total Sale");
+        System.out.println("6.Item low in inventory");
+        System.out.println("");
+        System.out.println("*.Return to main menu");
+    }
+
+    public static void displayReport(String data){
         displayBakeShop();
         System.out.println();
         System.out.println(data);
         System.out.println();
         System.out.println();
-        System.out.println("*.Return to main menu");
+        System.out.println("*.Return to report menu");
 
 
     }
 
-    public static void displayFoodItemSoldLastMonth(String data){
-        displayBakeShop();
-        System.out.println();
-        System.out.println(data);
-        System.out.println();
-        System.out.println();
-        System.out.println("*.Return to main menu");
-
-    }
 
     public static void displayBakeShop(){
         for(int i = 0; i < 10; i++){
@@ -212,7 +219,7 @@ public class UserInterface {
 
     public static void displayEnterItemFromSearch(){
         System.out.println("===================================");
-        System.out.print("Please Enter the number of Item to choose an item: ");
+        System.out.print("Please Enter Item number to choose an item from the list: ");
         System.out.println();
         System.out.print("Enter * to go back to search page");
         System.out.println();

@@ -1,1 +1,14 @@
 1;Pizza;5;
+2;Burger;10;
+3;Pie;20;
+4;Latte;5;
+5;Americano;30;
+6;Espresso;2;
+7;Cappuccino;50;
+8;Pea and ham soup;1;
+10;Weet-Bix;30;
+11;Fries;2;
+12;Ham;3;
+13;Robusta;5;
+14;Arabica;10;
+15;Canephora;15;
